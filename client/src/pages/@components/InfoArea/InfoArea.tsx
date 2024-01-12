@@ -14,8 +14,8 @@ import { SiteIcon } from 'src/components/icons/SIteIcon';
 import { VscodeIcon } from 'src/components/icons/VscodeIcon';
 import { staticPath } from 'src/utils/$path';
 import { DigitalClock } from '../DigitalClock';
+import { CheckMark, CrossMark } from '../StatusIcon/StatusIcon';
 import styles from './infoArea.module.css';
-
 const imgHeight = '(100vh - 48px - 48px)';
 
 export const InfoArea = (props: { app: AppModel }) => {
@@ -127,8 +127,55 @@ export const InfoArea = (props: { app: AppModel }) => {
           </div>
         </>
       ) : (
-        <div>インフラ構築待機中...</div>
+        <div className={styles.circleArea}>
+          <StatusCircle app={props.app} />
+          <StatusCircle app={props.app} />
+          <StatusCircle app={props.app} />
+          <StatusCircle app={props.app} />
+        </div>
       )}
     </div>
   );
+};
+
+export const frontLoading = (app: AppModel) => {
+  switch (app.status) {
+    case 'waiting':
+      return 'waiting';
+    case 'running':
+      return 'running';
+    case 'success':
+      return 'success';
+    case 'failure':
+      return 'failure';
+  }
+};
+
+const StatusCircle = ({ app }: { app: AppModel }) => {
+  const status = String(frontLoading(app));
+
+  return (
+    <div
+      className={styles.statusCircle}
+      style={{
+        background: {
+          closed: '#aaa',
+          running: '#ff0',
+          success: '#14b869',
+          failure: '#ec0000',
+        }[status],
+      }}
+    />
+  );
+};
+
+export const LoadingIcon = (props: { status: AppModel['status'] }) => {
+  return {
+    waiting: <div className={styles.loader} />,
+    init: <div className={styles.loader} />,
+    running: <div className={styles.loader} />,
+    success: <CheckMark />,
+    failure: <CrossMark />,
+    closed: <CrossMark />,
+  }[props.status];
 };

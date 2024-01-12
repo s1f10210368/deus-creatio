@@ -4,6 +4,7 @@
   grid-template-columns: auto 1fr;
   height: 100%;
   color: #fff;
+  text-align: center;
   background: #fff1;
   border-top: 1px solid #fff5;
   border-left: 1px solid #fff5;
@@ -177,4 +178,47 @@
 .taskContent {
   margin-top: 4px;
   font-size: 12px;
+}
+
+.statusCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.circleArea {
+  display: flex;
+  grid-column: 1/3;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  font-size: 5px;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgb(255 255 0 / 20%);
+  border-right: 1.1em solid rgb(255 255 0 / 20%);
+  border-bottom: 1.1em solid rgb(255 255 0 / 20%);
+  border-left: 1.1em solid #ff0;
+  transform-origin: center;
+  animation: load 1.1s infinite linear;
+}
+
+.loader,
+.loader::after {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
