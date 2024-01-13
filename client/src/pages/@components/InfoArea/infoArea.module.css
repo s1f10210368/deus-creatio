@@ -199,7 +199,7 @@
 .circleArea {
   display: grid;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .textArea {
@@ -232,7 +232,7 @@
 
 .loader,
 .loader::after {
-  width: 20px;
-  height: 20px;
+  width: 23px;
+  height: 23px;
   border-radius: 50%;
 }

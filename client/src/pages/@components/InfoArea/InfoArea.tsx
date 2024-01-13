@@ -12,9 +12,11 @@ import { RailwayIcon } from 'src/components/icons/RailwayIcon';
 import { ReloadIcon } from 'src/components/icons/ReloadIcon';
 import { SiteIcon } from 'src/components/icons/SIteIcon';
 import { VscodeIcon } from 'src/components/icons/VscodeIcon';
+import { useAppStatus } from 'src/pages/@hooks/useAppStatus';
 import { staticPath } from 'src/utils/$path';
 import { DigitalClock } from '../DigitalClock';
-import { CheckMark, CrossMark } from '../StatusIcon/StatusIcon';
+import { StatusIcon } from '../StatusIcon/StatusIcon';
+import { GithubStatusText, RailwayStatusText } from './InfoText';
 import styles from './infoArea.module.css';
 const imgHeight = '(100vh - 48px - 48px)';
 
@@ -23,6 +25,7 @@ export const InfoArea = (props: { app: AppModel }) => {
   const reload = () => {
     if (iframe.current) iframe.current.src = props.app.urls?.site ?? '';
   };
+  const appstatus = useAppStatus(props.app);
 
   return (
     <div className={styles.container}>
@@ -129,81 +132,19 @@ export const InfoArea = (props: { app: AppModel }) => {
       ) : (
         <div className={styles.loadingArea}>
           <div className={styles.circleArea}>
-            <StatusCircle app={props.app} />
-            <StatusCircle app={props.app} />
-            <StatusCircle app={props.app} />
-            <StatusCircle app={props.app} />
+            <StatusIcon status={appstatus} />
+            <StatusIcon status={appstatus} />
+            <StatusIcon status={appstatus} />
+            <StatusIcon status={appstatus} />
           </div>
           <div className={styles.textArea}>
-            <Statustext app={props.app} />
-            <Statustext app={props.app} />
-            <Statustext app={props.app} />
-            <Statustext app={props.app} />
+            <GithubStatusText app={props.app} />
+            <RailwayStatusText app={props.app} />
+            <GithubStatusText app={props.app} />
+            <RailwayStatusText app={props.app} />
           </div>
         </div>
       )}
     </div>
   );
-};
-
-export const frontLoading = (app: AppModel) => {
-  switch (app.status) {
-    case 'waiting':
-      return 'waiting';
-    case 'running':
-      return 'running';
-    case 'success':
-      return 'success';
-    case 'failure':
-      return 'failure';
-  }
-};
-
-const StatusCircle = ({ app }: { app: AppModel }) => {
-  const status = String(frontLoading(app));
-
-  return (
-    <div
-      className={styles.statusCircle}
-      style={{
-        background: {
-          closed: '#aaa',
-          running: '#ff0',
-          success: '#14b869',
-          failure: '#ec0000',
-        }[status],
-      }}
-    />
-  );
-};
-
-const Statustext = ({ app }: { app: AppModel }) => {
-  const text = String(frontLoading(app));
-
-  let displayText;
-  switch (text) {
-    case 'waiting':
-      displayText = 'Github作成待機中';
-      break;
-    case 'running':
-      displayText = 'github作成中...';
-      break;
-    case 'success':
-      displayText = 'Github作成成功';
-      break;
-    case 'failure':
-      displayText = 'Github作成失敗';
-      break;
-  }
-  return <div>{displayText}</div>;
-};
-export const LoadingIcon = (props: { status: AppModel['status'] }) => {
-  return {
-    waiting: <div className={styles.loader} />,
-    init: <div className={styles.loader} />,
-    running: <div className={styles.loader} />,
-    success: <CheckMark />,
-    failure: <CrossMark />,
-    closed: <CrossMark />,
-  }[props.status];
 };
