@@ -127,11 +127,19 @@ export const InfoArea = (props: { app: AppModel }) => {
           </div>
         </>
       ) : (
-        <div className={styles.circleArea}>
-          <StatusCircle app={props.app} />
-          <StatusCircle app={props.app} />
-          <StatusCircle app={props.app} />
-          <StatusCircle app={props.app} />
+        <div className={styles.loadingArea}>
+          <div className={styles.circleArea}>
+            <StatusCircle app={props.app} />
+            <StatusCircle app={props.app} />
+            <StatusCircle app={props.app} />
+            <StatusCircle app={props.app} />
+          </div>
+          <div className={styles.textArea}>
+            <Statustext app={props.app} />
+            <Statustext app={props.app} />
+            <Statustext app={props.app} />
+            <Statustext app={props.app} />
+          </div>
         </div>
       )}
     </div>
@@ -169,6 +177,26 @@ const StatusCircle = ({ app }: { app: AppModel }) => {
   );
 };
 
+const Statustext = ({ app }: { app: AppModel }) => {
+  const text = String(frontLoading(app));
+
+  let displayText;
+  switch (text) {
+    case 'waiting':
+      displayText = 'Github作成待機中';
+      break;
+    case 'running':
+      displayText = 'github作成中...';
+      break;
+    case 'success':
+      displayText = 'Github作成成功';
+      break;
+    case 'failure':
+      displayText = 'Github作成失敗';
+      break;
+  }
+  return <div>{displayText}</div>;
+};
 export const LoadingIcon = (props: { status: AppModel['status'] }) => {
   return {
     waiting: <div className={styles.loader} />,
