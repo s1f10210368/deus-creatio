@@ -17,9 +17,10 @@ import {
   deploymentStatusToIconStatus,
 } from 'src/pages/@hooks/useAppStatus';
 import { staticPath } from 'src/utils/$path';
+import { CustomContent } from '../ChatArea/CustomContent';
 import { DigitalClock } from '../DigitalClock';
 import { StatusIcon } from '../StatusIcon/StatusIcon';
-import { GithubStatusText, RailwayStatusText } from './InfoText';
+import { GithubStatusText } from './InfoText';
 import styles from './infoArea.module.css';
 const imgHeight = '(100vh - 48px - 48px)';
 
@@ -137,12 +138,21 @@ export const InfoArea = (props: { app: AppModel }) => {
             {props.app.bubbles.map((bubble) => {
               switch (bubble.type) {
                 case 'github':
-                  return <StatusIcon status={actionConclusionToIconStatus(bubble.content)} />;
+                  return (
+                    <CustomContent
+                      key={bubble.id}
+                      title={GithubStatusText(bubble.content)}
+                      content={bubble.content}
+                      status={actionConclusionToIconStatus(bubble.content)}
+                      icon={<GithubIcon size={32} fill="#fff" />}
+                    />
+                  );
                 case 'railway':
                   return <StatusIcon status={deploymentStatusToIconStatus(bubble.content)} />;
               }
             })}
           </div>
+          {/*
           <div className={styles.textArea}>
             {props.app.bubbles.map((bubble) => {
               switch (bubble.type) {
@@ -153,7 +163,7 @@ export const InfoArea = (props: { app: AppModel }) => {
                   return <div>{RailwayStatusText(bubble.content)}</div>;
               }
             })}
-          </div>
+          </div>*/}
         </div>
       )}
     </div>
