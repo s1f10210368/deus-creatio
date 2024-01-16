@@ -15,7 +15,6 @@ import { VscodeIcon } from 'src/components/icons/VscodeIcon';
 import {
   actionConclusionToIconStatus,
   deploymentStatusToIconStatus,
-  useAppStatus,
 } from 'src/pages/@hooks/useAppStatus';
 import { staticPath } from 'src/utils/$path';
 import { DigitalClock } from '../DigitalClock';
@@ -29,7 +28,6 @@ export const InfoArea = (props: { app: AppModel }) => {
   const reload = () => {
     if (iframe.current) iframe.current.src = props.app.urls?.site ?? '';
   };
-  const appstatus = useAppStatus(props.app);
 
   return (
     <div className={styles.container}>
