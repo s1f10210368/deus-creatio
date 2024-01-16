@@ -12,7 +12,11 @@ import { RailwayIcon } from 'src/components/icons/RailwayIcon';
 import { ReloadIcon } from 'src/components/icons/ReloadIcon';
 import { SiteIcon } from 'src/components/icons/SIteIcon';
 import { VscodeIcon } from 'src/components/icons/VscodeIcon';
-import { useAppStatus } from 'src/pages/@hooks/useAppStatus';
+import {
+  actionConclusionToIconStatus,
+  deploymentStatusToIconStatus,
+  useAppStatus,
+} from 'src/pages/@hooks/useAppStatus';
 import { staticPath } from 'src/utils/$path';
 import { DigitalClock } from '../DigitalClock';
 import { StatusIcon } from '../StatusIcon/StatusIcon';
@@ -132,16 +136,25 @@ export const InfoArea = (props: { app: AppModel }) => {
       ) : (
         <div className={styles.loadingArea}>
           <div className={styles.circleArea}>
-            <StatusIcon status={appstatus} />
-            <StatusIcon status={appstatus} />
-            <StatusIcon status={appstatus} />
-            <StatusIcon status={appstatus} />
+            {props.app.bubbles.map((bubble) => {
+              switch (bubble.type) {
+                case 'github':
+                  return <StatusIcon status={actionConclusionToIconStatus(bubble.content)} />;
+                case 'railway':
+                  return <StatusIcon status={deploymentStatusToIconStatus(bubble.content)} />;
+              }
+            })}
           </div>
           <div className={styles.textArea}>
-            <GithubStatusText app={props.app} />
-            <RailwayStatusText app={props.app} />
-            <GithubStatusText app={props.app} />
-            <RailwayStatusText app={props.app} />
+            {props.app.bubbles.map((bubble) => {
+              switch (bubble.type) {
+                case 'github':
+                  return <div>{GithubStatusText(bubble.content)}</div>;
+
+                case 'railway':
+                  return <div>{RailwayStatusText(bubble.content)}</div>;
+              }
+            })}
           </div>
         </div>
       )}
