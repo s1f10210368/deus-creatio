@@ -17,10 +17,9 @@ import {
   deploymentStatusToIconStatus,
 } from 'src/pages/@hooks/useAppStatus';
 import { staticPath } from 'src/utils/$path';
-import { CustomContent } from '../ChatArea/CustomContent';
 import { DigitalClock } from '../DigitalClock';
 import { StatusIcon } from '../StatusIcon/StatusIcon';
-import { GithubStatusText } from './InfoText';
+import { GithubStatusText, RailwayStatusText } from './InfoText';
 import styles from './infoArea.module.css';
 const imgHeight = '(100vh - 48px - 48px)';
 
@@ -138,21 +137,15 @@ export const InfoArea = (props: { app: AppModel }) => {
             {props.app.bubbles.map((bubble) => {
               switch (bubble.type) {
                 case 'github':
-                  return (
-                    <CustomContent
-                      key={bubble.id}
-                      title={GithubStatusText(bubble.content)}
-                      content={bubble.content}
-                      status={actionConclusionToIconStatus(bubble.content)}
-                      icon={<GithubIcon size={32} fill="#fff" />}
-                    />
-                  );
+                  return <StatusIcon status={actionConclusionToIconStatus(bubble.content)} />;
                 case 'railway':
                   return <StatusIcon status={deploymentStatusToIconStatus(bubble.content)} />;
+                case 'taskList':
+                  return;
               }
             })}
           </div>
-          {/*
+
           <div className={styles.textArea}>
             {props.app.bubbles.map((bubble) => {
               switch (bubble.type) {
@@ -161,9 +154,19 @@ export const InfoArea = (props: { app: AppModel }) => {
 
                 case 'railway':
                   return <div>{RailwayStatusText(bubble.content)}</div>;
+                case 'taskList': {
+                  props.app.taskList?.map((task) => {
+                    switch (task.done) {
+                      case true:
+                        return 'タスクリスト完成';
+                      case false:
+                        return 'タスクリスト作成中';
+                    }
+                  });
+                }
               }
             })}
-          </div>*/}
+          </div>
         </div>
       )}
     </div>

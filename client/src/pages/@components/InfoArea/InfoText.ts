@@ -10,7 +10,7 @@ export const GithubStatusText = (action: GHActionModel) => {
     case 'init':
       return 'デプロイを初期化しています';
     case 'running':
-      return 'デプロイ作成中...';
+      return 'デプロイ中...';
     case 'success':
       return 'デプロイに成功しました';
     case 'failure':
@@ -26,18 +26,16 @@ export const GithubStatusText = (action: GHActionModel) => {
 export const RailwayStatusText = (action: RWDeploymentModel) => {
   switch (action.status) {
     case 'BUILDING' && 'SUCCESS':
-      return 'Raiyway作成が成功しました。';
+      return 'Raiywayとの連携が成功しました。';
     case 'WAITING' && 'DEPLOYING':
-      return 'Railway作成待機中';
+      return 'Railwayとの連携を待機中';
     case 'CRASHED' && 'FAILED':
-      return 'Railway作成失敗';
+      return 'Railwayとの連携失敗';
     case 'INITIALIZING':
-      return 'Railway作成を開始します';
+      return 'Railwayとの連携を開始します';
     case 'QUEUED':
-      return 'Railwayが実行中です。';
+      return 'Railwayとの連携を実行中です。';
     case 'REMOVED' && 'REMOVING' && 'SKIPPED':
-      return 'Railway作成は終了しました。';
-    default:
-      throw new Error(action.status satisfies never);
+      return 'Railwayとの連携は終了しました。';
   }
 };
